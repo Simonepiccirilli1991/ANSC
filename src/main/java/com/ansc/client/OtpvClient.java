@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class OtpvClient {
 
-	@Value("${config.smoc0.end-point}")
+	@Value("${config.otpv0.end-point}")
 	private String url;
 	WebClient webClient = WebClient.create(url);
 	

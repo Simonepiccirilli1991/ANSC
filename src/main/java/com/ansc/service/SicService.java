@@ -25,7 +25,7 @@ public class SicService {
 		
 		SicResponse response = new SicResponse();
 		
-		Optional<Anagrafica> anagrafica = Optional.of(anaRepo.findByBt(request.getBt()));
+		Optional<Anagrafica> anagrafica = Optional.ofNullable(anaRepo.findByBt(request.getBt()));
 		
 		if(anagrafica.isEmpty()) {
 			response.setError(true);
@@ -57,7 +57,7 @@ public class SicService {
 		
 		SicResponse response = new SicResponse();
 		
-		Optional<Anagrafica> anag = Optional.of(anaRepo.findByBt(request.getBt()));
+		Optional<Anagrafica> anag = Optional.ofNullable(anaRepo.findByBt(request.getBt()));
 		
 		if(anag.isEmpty()) {
 			response.setError(true);
@@ -82,7 +82,7 @@ public class SicService {
 		
 		SicResponse response = new SicResponse();
 		
-		Optional<Anagrafica> anag = Optional.of(anaRepo.findByBt(request.getBt()));
+		Optional<Anagrafica> anag = Optional.ofNullable(anaRepo.findByBt(request.getBt()));
 		
 		if(anag.isEmpty()) {
 			response.setError(true);

@@ -82,4 +82,62 @@ public class ServiceTest {
 		assertThat(anagService.getAnagrafica("bt-2").getMailCertificata()).isTrue();
 		
 	}
+	
+	@Test
+	public void checkPinTestOK() {
+		
+		AnagraficaRequest request = new AnagraficaRequest();
+		request.setBancaId("bandaId-3");
+		request.setBt("bt-3");
+		request.setCelluare("cellulare-3");
+		request.setCf("cf-3");
+		request.setCognome("cognome-3");
+		request.setMail("mail-3");
+		request.setNome("nome-3");
+		request.setPin("pin3");
+		
+		anagService.insertAna(request);
+		
+		SicRequest iRequest = new SicRequest();
+		iRequest.setBt("bt-3");
+		iRequest.setOtp("111111");
+		iRequest.setPin("pin3");
+		iRequest.setTrxId("trxId");
+		
+		SicResponse iResp =  sicService.checkPin(iRequest);
+		
+		assertThat(iResp.getMsg()).isEqualTo("Pin check success");
+	}
+	
+	@Test
+	public void changePinTestOK() {
+		
+		AnagraficaRequest request = new AnagraficaRequest();
+		request.setBancaId("bandaId-4");
+		request.setBt("bt-4");
+		request.setCelluare("cellulare-4");
+		request.setCf("cf-4");
+		request.setCognome("cognome-4");
+		request.setMail("mail-4");
+		request.setNome("nome-4");
+		request.setPin("pin4");
+		
+		anagService.insertAna(request);
+		
+		SicRequest iRequest = new SicRequest();
+		iRequest.setBt("bt-4");
+		iRequest.setOtp("111111");
+		iRequest.setPin("pin5");
+		iRequest.setTrxId("trxId");
+		
+		CheckOtpResponse otpRes = new CheckOtpResponse();
+		otpRes.setAutenticationSucc(true);
+		otpRes.setMsg("daje");
+		
+		when(otpv.checkOtp(any())).thenReturn(otpRes);
+		
+		SicResponse iResp =  sicService.changePin(iRequest);
+		
+		assertThat(iResp.getMsg()).isEqualTo("Pin succfully changed");
+	}
 }
