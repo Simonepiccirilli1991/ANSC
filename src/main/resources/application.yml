@@ -21,4 +21,4 @@ server:
 
 config:
   otpv0:
-    end-point: ${OTPV0_ENDPOINT:http://localhost:8088}
+    end-point: ${OTPV0_ENDPOINT:http://localhost:8087}
