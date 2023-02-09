@@ -1,5 +1,7 @@
 package com.ansc.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ansc.model.request.CheckOtpRequest;
 import com.ansc.model.response.CheckOtpResponse;
+import com.ansc.service.AnagraficaService;
 
 import reactor.core.publisher.Mono;
 
@@ -19,9 +22,12 @@ public class OtpvClient {
 	private String url;
 	WebClient webClient = WebClient.create(url);
 	
+	Logger logger = LoggerFactory.getLogger(OtpvClient.class);
+	
 	
 	public CheckOtpResponse checkOtp(CheckOtpRequest request) {
-
+		logger.info("CLIENT :OtpvClient - checkOtp -  START with raw request: {}", request);
+		
 		CheckOtpResponse iResp = new CheckOtpResponse();
 		Mono<CheckOtpResponse> response = null;
 
@@ -38,7 +44,7 @@ public class OtpvClient {
                        });
 
 		}catch(Exception e) {
-			//TODO inserire log e gestione eccezzione
+			logger.error("CLIENT :OtpvClient - checkOtp - EXCEPTION", e);
 		}
 
 		iResp = response.block();
@@ -46,6 +52,8 @@ public class OtpvClient {
 		if(ObjectUtils.isEmpty(iResp) || iResp.getAutenticationSucc() == false) {
 			//TODO implemnetare eccezzione
 		}
+		logger.info("CLIENT :OtpvClient - checkOtp - END with response: {}", response);
+		
 		return iResp;
 	}
 }

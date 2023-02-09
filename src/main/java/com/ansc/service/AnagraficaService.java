@@ -1,5 +1,7 @@
 package com.ansc.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +16,32 @@ public class AnagraficaService {
 	@Autowired
 	AnagraficaRepo anaRepo;
 	
+	Logger logger = LoggerFactory.getLogger(AnagraficaService.class);
+	
+	
 	public AnagraficaResponse insertAna(AnagraficaRequest request) {
+		logger.info("API :AnagraficaService - insertAna -  START with raw request: {}", request);
 		
 		AnagraficaResponse response = new AnagraficaResponse();
 		
 		try {
 			anaRepo.save(requestToAna(request));
 		}catch(Exception e) {
-			
+			logger.error("REPO :AnagraficaService - insertAna - EXCEPTION", e);
 			response.setError(true);
 			response.setErrMsg("Error during saving anagrafica for bt:"+request.getBt());
 			return response;
 		}
 		
 		response.setMsg("Ansc-OK");
+		logger.info("API :AnagraficaService - insinsertAnaert - END with response: {}", response);
+		
 		return response;
 	}
 	
 	
 	public AnagraficaResponse getAnagrafica(String bt) {
-		
+		logger.info("API :AnagraficaService - getAnagrafica -  START with raw request: {}", bt);
 		AnagraficaResponse response = new AnagraficaResponse();
 		
 		Anagrafica anagrafica = null;
@@ -43,11 +51,13 @@ public class AnagraficaService {
 			response = entityToResponse(anagrafica);
 			
 		}catch(Exception e) {
+			logger.error("Client :AnagraficaService - getAnagrafica - EXCEPTION", e);
 			response.setError(true);
 			response.setErrMsg("Error during retriving anagrafica for bt:"+bt);
 			return response;
 		}
 		
+		logger.info("API :AnagraficaService - getAnagrafica - END with response: {}", response);
 		return response;
 	}
 	
